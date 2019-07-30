@@ -1,0 +1,8 @@
+ben B-PER
+love O
+coca B-PROD
+cola B-PROD
+
+i O
+like O
+hkust B-ORG
