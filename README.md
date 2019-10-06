@@ -1,9 +1,9 @@
-## Learning Multilingual Meta-Embeddings
-### Genta Indra Winata, Zhaojiang Lin, Pascale Fung
+## Learning Multilingual Meta-Embeddings for Code-Switching
+### Genta Indra Winata, Zhaojiang Lin, Jamin Shin, Zihan Liu, Pascale Fung
 
 <img src="img/pytorch-logo-dark.png" width="10%"> [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
 
-This is the implementation of our papers accepted in RepL4NLP and EMNLP 2019. You can find our paper [here](https://www.aclweb.org/anthology/W19-4320) and [here](https://arxiv.org/pdf/1909.08504.pdf). 
+This is the implementation of our papers accepted in [RepL4NLP](https://www.aclweb.org/anthology/W19-4320) and [EMNLP](https://arxiv.org/pdf/1909.08504.pdf) 2019.
 
 This code has been written using PyTorch. If you use any source codes or datasets included in this toolkit in your work, please cite the following paper.
 ```
@@ -30,9 +30,6 @@ This code has been written using PyTorch. If you use any source codes or dataset
   year={2019}
 }
 ```
-
-## Description
-In countries that speak multiple main languages, mixing up different languages within a conversation is commonly called code-switching. Previous works addressing this challenge mainly focused on word-level aspects such as word embeddings. However, in many cases, languages share common subwords, especially for closely related languages, but also for languages that are seemingly irrelevant. Therefore, we propose Hierarchical Meta-Embeddings (HME) that learn to combine multiple monolingual word-level and subword-level embeddings to create language-agnostic lexical representations. On the task of Named Entity Recognition for English-Spanish code-switching data, our model achieves the state-of-the-art performance in the multilingual settings. We also show that, in cross-lingual settings, our model not only leverages closely related languages, but also learns from languages with different roots. Finally, we show that combining different subunits are crucial for capturing code-switching entities. 
 
 ## Data
 English-Spanish Twitter Dataset in CoNLL format. Due to copyright and privacy issue, we cannot share the dataset in this repository, but you can contact the Shared Task committee or crawl the data by following the instructions in the [Shared Task Website](https://code-switching.github.io/2018/). You can reuse this code and apply our method in other datasets. 
