@@ -43,12 +43,14 @@ Please check the format [here](sample.txt)
 - Install PyTorch (Tested in PyTorch 1.0 and Python 3.6)
 - Install library dependencies:
 ```console
-pip install tqdm numpy
+pip install tqdm numpy torchtext bpeemb gensim
 ```
 - Download pre-trained word embeddings.
+
 In this paper, we were using English, Spanish, Catalan, and Portuguese FastText and an English Twitter GloVe. We generated word embeddings for all words to remove out-of-vocabulary and let the model learns how to choose and combine embeddings.
 
-- Subword embeddings
+- Subword embeddings.
+
 The code will automatically download subword embeddings using bpeemb library.
 
 ## Train
@@ -102,6 +104,7 @@ python test.py --emb_list embedding/all_vocab_en_es_crawl-300d-2M-subword.vec em
 
 ## Attention
 <img src="img/heatmap.jpg" width=70%>
+<img src="img/HME.jpg" width=70%>
 
 ## Bug Report
 Feel free to create an issue or send email to giwinata@connect.ust.hk
