@@ -52,7 +52,7 @@ In this paper, we were using English, Spanish, Catalan, and Portuguese FastText 
 
 - Subword embeddings.
 
-The code will automatically download subword embeddings using bpeemb library.
+The code will automatically download subword embeddings using [bpeemb](https://github.com/gentaiscool/meta-emb) library.
 
 ## Train
 * ```--emb_list```: list all pre-trained word embeddings
@@ -64,7 +64,8 @@ The code will automatically download subword embeddings using bpeemb library.
 * ```--no_projection```: to remove the projection layer (especially for CONCAT)
 * ```--no_word_emb```: remove word embeddings
 * ```--early_stop```: to early stop
-* ```--bpe_lang_list```: List of BPE languages
+* ```--max_length```: increase the sequence maximum length
+* ```--bpe_lang_list```: List of BPE languages (keep it empty for word only)
 * ```--bpe_emb_size```: BPE embeddings size (default: 300)
 * ```--bpe_vocab```: BPE vocab (default: 5000)
 * ```--bpe_hidden_size```: BPE hidden size

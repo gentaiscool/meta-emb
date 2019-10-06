@@ -41,8 +41,8 @@ class Trainer():
                 word_src = word_src.cuda()
                 word_tgt = word_tgt.cuda()
                 char_src = char_src.cuda()
-                bpe_ids = bpe_ids.cuda()
-                # char_tgt = char_tgt.cuda()
+                if bpe_ids is not None:
+                    bpe_ids = bpe_ids.cuda()
 
             predictions, loss, _, _ = model.forward(word_src, word_tgt, bpe_ids, char_src, src_raw, src_lengths=src_lengths, print_loss=True)
 
@@ -59,13 +59,6 @@ class Trainer():
                 sample_id += 1
                 all_predictions.append("")
                 all_pairs.append("")
-
-        if constant.params["eval"] == "wnut":
-            metrics = wnuteval_measure(all_pairs)
-            print("test fb1:", metrics["fb1"])
-        elif constant.params["eval"] == "conll2002":
-            metrics = conll2002_measure(all_pairs)
-            print("test fb1:", metrics["fb1"])
 
         prediction_path = "{}/{}".format(constant.params["model_dir"], constant.params["out"])
         with open(prediction_path, "w+") as file_out:
@@ -95,7 +88,8 @@ class Trainer():
                 word_src = word_src.cuda()
                 word_tgt = word_tgt.cuda()
                 char_src = char_src.cuda()
-                bpe_ids = bpe_ids.cuda()
+                if bpe_ids is not None:
+                    bpe_ids = bpe_ids.cuda()
 
             predictions, loss, attn_scores, bpe_attn_scores = model.forward(word_src, word_tgt, bpe_ids, char_src, src_raw, src_lengths=src_lengths, print_loss=True)
             
@@ -218,17 +212,7 @@ class Trainer():
             # evaluation
             all_predictions, all_true_labels, all_pairs, valid_log_loss, _, _ = self.evaluate(model, valid_loader, word2id, id2word, label2id, id2label)
 
-            if constant.params["eval"] == "calcs":
-                metrics = measure(all_pairs)
-            elif constant.params["eval"] == "wnut":
-                print(len(all_pairs))
-                metrics = wnuteval_measure(all_pairs)
-            elif constant.params["eval"] == "pos":
-                metrics = twitter_pos_measure(all_pairs)
-            elif constant.params["eval"] == "conll2002":
-                metrics = conll2002_measure(all_pairs)
-            else:
-                print("evaluation metric is not defined")
+            metrics = measure(all_pairs)
 
             fb1 = metrics["fb1"] / (100)
 
