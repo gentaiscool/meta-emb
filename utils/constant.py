@@ -7,17 +7,22 @@ import torch
 import numpy as np
 import random
 
-parser = argparse.ArgumentParser(description='Multilingual Meta-Embeddings with Transformer-based NER')
+parser = argparse.ArgumentParser(description='TransformerNER')
 parser.add_argument('--name', type=str, default='', help='name')
-parser.add_argument('--train_file', type=str, default='data/calcs_eng_spa/train.txt', help='training file location')
-parser.add_argument('--valid_file', type=str, default='data/calcs_eng_spa/valid.txt', help='validation file location')
-parser.add_argument('--test_file', type=str, default='data/calcs_eng_spa/test.txt', help='test file location')
+parser.add_argument('--train_file', type=str, default='data/calcs_eng_spa/train.txt', help='LSTM / TRFS')
+parser.add_argument('--valid_file', type=str, default='data/calcs_eng_spa/valid.txt', help='LSTM / TRFS')
+parser.add_argument('--test_file', type=str, default='data/calcs_eng_spa/test.txt', help='LSTM / TRFS')
 
-parser.add_argument('--eval', type=str, default='calcs', help='calcs')
+parser.add_argument('--eval', type=str, default='calcs', help='calcs / wnut / pos / connl2002')
 parser.add_argument('--model', type=str, default='TRFS', help='TRFS')
 parser.add_argument('--batch_size', type=int, default=16, help='batch size')
+parser.add_argument('--embedding_size_char', type=int,
+                    default=300, help='embedding size char')
+parser.add_argument('--embedding_size_char_per_word', type=int,
+                    default=100, help='embedding size char per word')
 parser.add_argument('--embedding_size_word', type=int,
                     default=300, help='embedding size word')
+
 parser.add_argument('--num_epochs', type=int,
                     default=200, help='num epochs')
 parser.add_argument('--num_layers', type=int, default=4, help='num layers')
@@ -46,8 +51,17 @@ parser.add_argument('--cuda', action='store_true',
                     help='use CUDA')
 parser.add_argument('--model_dir', type=str, default='MODEL')
 parser.add_argument('--save_path', type=str, default='model')
-parser.add_argument('--emb_list', nargs='+', type=str)
 
+parser.add_argument('--emb_list', nargs='+', type=str)
+parser.add_argument('--bpe_lang_list', nargs='+', type=str)
+parser.add_argument('--bpe_vocab', type=int, default=5000)
+parser.add_argument('--bpe_emb_size', type=int, default=300)
+parser.add_argument('--bpe_hidden_size', type=int, default=100)
+parser.add_argument('--bpe_cache', type=str, default='embedding/BPE')
+
+parser.add_argument('--loss_weight', type=float,
+                    default=0, help='mse weight')
+parser.add_argument('--loss', type=str, default='mse', help='mse or l1')
 parser.add_argument('--hidden_size', type=int,
                     default=200, help='hidden size')
 parser.add_argument('--max_length', type=int,
@@ -55,6 +69,12 @@ parser.add_argument('--max_length', type=int,
 parser.add_argument('--max_vocab_size', type=int,
                     default=5000000, help='max vocabulary size (embedding layer)')
 parser.add_argument('--out', type=str, default='calcs_eng_spa_preds.conll')
+parser.add_argument('--no_word_emb', action="store_true", 
+                    help='no word embedding')
+parser.add_argument('--add_emb', action="store_true", 
+                    help='add trainable emb')
+parser.add_argument('--add_char_emb', action="store_true", 
+                    help='add trainable char emb')
 
 parser.add_argument('--drop', type=float, default=0, help='dropout')
 parser.add_argument('--early_stop', type=int,
@@ -76,6 +96,8 @@ params = {
     "valid_file": args.valid_file,
     "test_file": args.test_file,
     "batch_size": args.batch_size,
+    "embedding_size_char": args.embedding_size_char,
+    "embedding_size_char_per_word": args.embedding_size_char_per_word,
     "num_layers": args.num_layers,
     "num_heads": args.num_heads,
     "dim_key": args.dim_key,
@@ -103,9 +125,19 @@ params = {
     "max_vocab_size": args.max_vocab_size,
     "out": args.out,
     "emb_list": args.emb_list,
+    "bpe_lang_list": args.bpe_lang_list,
+    "bpe_vocab": args.bpe_vocab,
+    "bpe_emb_size": args.bpe_emb_size,
+    "bpe_hidden_size": args.bpe_hidden_size,
+    "bpe_cache": args.bpe_cache,
+    "loss_weight": args.loss_weight,
+    "loss": args.loss,
+    "no_word_emb": args.no_word_emb,
+    "add_emb": args.add_emb,
+    "add_char_emb": args.add_char_emb,
     "early_stop": args.early_stop,
     "mode": args.mode,
-    "no_projection": args.no_projection,
+    "no_projection": args.no_projection
 }
 
 print(params)

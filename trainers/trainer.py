@@ -8,13 +8,15 @@ import torch.optim as optim
 import sys
 import os
 import logging
-import numpy as np
 
 from tqdm import tqdm
+
 from models.transformer_tagger import TransformerTagger
 from utils import constant
 from utils.training_common import compute_num_params, lr_decay_map
 from eval.metrics import measure
+
+import numpy as np
 
 class Trainer():
 
@@ -33,13 +35,16 @@ class Trainer():
 
         pbar = tqdm(iter(test_loader), leave=True, total=len(test_loader))
         for i, (data) in enumerate(pbar, start=start_iter):
-            word_src, word_tgt, src_lengths, src_raw = data
+            word_src, word_tgt, bpe_ids, char_src, src_lengths, src_raw = data
 
             if constant.USE_CUDA:
                 word_src = word_src.cuda()
                 word_tgt = word_tgt.cuda()
+                char_src = char_src.cuda()
+                bpe_ids = bpe_ids.cuda()
+                # char_tgt = char_tgt.cuda()
 
-            predictions, loss, _ = model.forward(word_src, word_tgt, src_raw, src_lengths=src_lengths, print_loss=True)
+            predictions, loss, _, _ = model.forward(word_src, word_tgt, bpe_ids, char_src, src_raw, src_lengths=src_lengths, print_loss=True)
 
             sample_id = 0
             for sample in predictions.cpu().numpy().tolist():
@@ -54,6 +59,13 @@ class Trainer():
                 sample_id += 1
                 all_predictions.append("")
                 all_pairs.append("")
+
+        if constant.params["eval"] == "wnut":
+            metrics = wnuteval_measure(all_pairs)
+            print("test fb1:", metrics["fb1"])
+        elif constant.params["eval"] == "conll2002":
+            metrics = conll2002_measure(all_pairs)
+            print("test fb1:", metrics["fb1"])
 
         prediction_path = "{}/{}".format(constant.params["model_dir"], constant.params["out"])
         with open(prediction_path, "w+") as file_out:
@@ -72,18 +84,21 @@ class Trainer():
     def evaluate(self, model, valid_loader, word2id, id2word, label2id, id2label):
         model.eval()
 
-        all_predictions, all_true_labels, all_pairs, valid_log_loss, all_attn_scores, all_src_raws = [], [], [], [], [], []
+        all_predictions, all_true_labels, all_pairs, valid_log_loss, all_attn_scores, all_bpe_attn_scores, all_src_raws = [], [], [], [], [], [], []
         start_iter = 0
 
         pbar = tqdm(iter(valid_loader), leave=True, total=len(valid_loader))
         for i, (data) in enumerate(pbar, start=start_iter):
-            word_src, word_tgt, src_lengths, src_raw = data
+            word_src, word_tgt, bpe_ids, char_src, src_lengths, src_raw = data
 
             if constant.USE_CUDA:
                 word_src = word_src.cuda()
                 word_tgt = word_tgt.cuda()
+                char_src = char_src.cuda()
+                bpe_ids = bpe_ids.cuda()
 
-            predictions, loss, attn_scores = model.forward(word_src, word_tgt, src_raw, src_lengths=src_lengths, print_loss=True)
+            predictions, loss, attn_scores, bpe_attn_scores = model.forward(word_src, word_tgt, bpe_ids, char_src, src_raw, src_lengths=src_lengths, print_loss=True)
+            
             sample_predictions, sample_true_labels = [], []
 
             sample_id = 0
@@ -112,9 +127,16 @@ class Trainer():
                         all_attn_scores.append(src_raw[j][k] + " " + str(attn_energies[j,k,:].detach().cpu().numpy()).replace("\n","").replace("  "," "))
                     all_attn_scores.append("")
 
+            if bpe_attn_scores is not None:
+                attn_energies = nn.Softmax(dim=-1)(torch.sum(bpe_attn_scores, dim=2))
+
+                for j in range(len(bpe_attn_scores)):
+                    for k in range(src_lengths[j]):
+                        all_bpe_attn_scores.append(src_raw[j][k] + " " + str(attn_energies[j,k,:].detach().cpu().numpy()).replace("\n","").replace("  "," "))
+                    all_bpe_attn_scores.append("")
             valid_log_loss.append(loss.item())
 
-        return all_predictions, all_true_labels, all_pairs, valid_log_loss, all_attn_scores
+        return all_predictions, all_true_labels, all_pairs, valid_log_loss, all_attn_scores, all_bpe_attn_scores
 
     def train(self, model, task_name, train_loader, valid_loader, test_loader, word2id, id2word, label2id, id2label, raw_test):
         """
@@ -167,12 +189,15 @@ class Trainer():
 
             pbar = tqdm(iter(train_loader), leave=True, total=len(train_loader))
             for i, (data) in enumerate(pbar, start=start_iter):
-                word_src, word_tgt, src_lengths, src_raw = data
+                word_src, word_tgt, bpe_ids, char_src, src_lengths, src_raw = data
                 if constant.USE_CUDA:
                     word_src = word_src.cuda()
                     word_tgt = word_tgt.cuda()
+                    char_src = char_src.cuda()
+                    if bpe_ids is not None:
+                        bpe_ids = bpe_ids.cuda()
 
-                output, loss, _ = model(word_src, word_tgt, src_raw, src_lengths=src_lengths, print_loss=True)
+                output, loss, _, _ = model(word_src, word_tgt, bpe_ids, char_src, src_raw, src_lengths=src_lengths, loss_weight=constant.params["loss_weight"], loss_type=constant.params["loss"],print_loss=True)
                 optimizer.zero_grad()
                 loss.backward()
                 optimizer.step()
@@ -191,10 +216,17 @@ class Trainer():
             print("Train loss: {:3.5f}".format(np.mean(log_loss)))
 
             # evaluation
-            all_predictions, all_true_labels, all_pairs, valid_log_loss, _ = self.evaluate(model, valid_loader, word2id, id2word, label2id, id2label)
+            all_predictions, all_true_labels, all_pairs, valid_log_loss, _, _ = self.evaluate(model, valid_loader, word2id, id2word, label2id, id2label)
 
             if constant.params["eval"] == "calcs":
                 metrics = measure(all_pairs)
+            elif constant.params["eval"] == "wnut":
+                print(len(all_pairs))
+                metrics = wnuteval_measure(all_pairs)
+            elif constant.params["eval"] == "pos":
+                metrics = twitter_pos_measure(all_pairs)
+            elif constant.params["eval"] == "conll2002":
+                metrics = conll2002_measure(all_pairs)
             else:
                 print("evaluation metric is not defined")
 
@@ -214,6 +246,9 @@ class Trainer():
                 torch.save(model.state_dict(), "{}/{}.pt".format(constant.params["model_dir"], constant.params["save_path"]))
 
                 print("######    Run Prediction   ######")
+                # load the best model
+                # model_path = constant.params["model_dir"] + "/" + constant.params["save_path"] + ".pt"
+                # model.load_state_dict(torch.load(model_path))
                 self.predict(model, test_loader, word2id, id2word, label2id, id2label, raw_test)
             else:
                 cnt+=1
