@@ -38,6 +38,7 @@ Please check the format [here](sample.txt)
 
 ## Model Architecture
 <img src="img/model.jpg" width=40%/>
+<img src="img/HME.jpg" width=70%>
 
 ## Setup
 - Install PyTorch (Tested in PyTorch 1.0 and Python 3.6)
@@ -104,7 +105,6 @@ python test.py --emb_list embedding/all_vocab_en_es_crawl-300d-2M-subword.vec em
 
 ## Attention
 <img src="img/heatmap.jpg" width=70%>
-<img src="img/HME.jpg" width=70%>
 
 ## Bug Report
 Feel free to create an issue or send email to giwinata@connect.ust.hk
