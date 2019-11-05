@@ -3,7 +3,7 @@
 
 <img src="img/pytorch-logo-dark.png" width="10%"> [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
 
-This is the implementation of our papers accepted in [RepL4NLP](https://www.aclweb.org/anthology/W19-4320) and [EMNLP](https://arxiv.org/abs/1909.08504) 2019.
+This is the implementation of our papers accepted in [RepL4NLP](https://www.aclweb.org/anthology/W19-4320) and [EMNLP](https://www.aclweb.org/anthology/D19-1360.pdf) 2019.
 
 This code has been written using PyTorch. If you use any source codes or datasets included in this toolkit in your work, please cite the following papers.
 ```
