@@ -23,11 +23,21 @@ This code has been written using PyTorch. If you use any source codes or dataset
 ```
 
 ```
-@article{winata2019hierarchical,
-  title={Hierarchical Meta-Embeddings for Code-Switching Named Entity Recognition},
-  author={Winata, Genta Indra and Lin, Zhaojiang and Shin, Jamin and Liu, Zihan and Fung, Pascale},
-  journal={arXiv preprint arXiv:1909.08504},
-  year={2019}
+@inproceedings{winata-etal-2019-hierarchical,
+    title = "Hierarchical Meta-Embeddings for Code-Switching Named Entity Recognition",
+    author = "Winata, Genta Indra  and
+      Lin, Zhaojiang  and
+      Shin, Jamin  and
+      Liu, Zihan  and
+      Fung, Pascale",
+    booktitle = "Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP)",
+    month = nov,
+    year = "2019",
+    address = "Hong Kong, China",
+    publisher = "Association for Computational Linguistics",
+    url = "https://www.aclweb.org/anthology/D19-1360",
+    doi = "10.18653/v1/D19-1360",
+    pages = "3532--3538",
 }
 ```
 
