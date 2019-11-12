@@ -1,4 +1,4 @@
-## Learning Multilingual Meta-Embeddings for Code-Switching
+## Hierarchical Multilingual Meta-Embeddings
 ### Genta Indra Winata, Zhaojiang Lin, Jamin Shin, Zihan Liu, Pascale Fung
 
 <img src="img/pytorch-logo-dark.png" width="10%"> [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
