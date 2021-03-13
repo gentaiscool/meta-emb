@@ -14,7 +14,10 @@ from tqdm import tqdm
 from models.transformer_tagger import TransformerTagger
 from utils import constant
 from utils.training_common import compute_num_params, lr_decay_map
-from eval.metrics import measure
+# from eval.metrics import measure
+from seqeval.metrics import f1_score
+# from seqeval.metrics import accuracy_score
+from sklearn.metrics import accuracy_score
 
 import numpy as np
 
@@ -49,19 +52,30 @@ class Trainer():
             sample_id = 0
             for sample in predictions.cpu().numpy().tolist():
                 token_id = 0
-                for token in sample:
-                    word = word_src[sample_id][token_id].item()
-                    if id2word[word] != "" and id2word[word] != "<pad>":
-                        all_predictions.append(id2word[word] + "\t" + id2label[token] + "")
-                        true_label = word_tgt[sample_id][token_id].item()
-                        all_pairs.append(id2word[word] + "\t" + id2label[token] + "\t" + id2label[true_label])
-                    token_id += 1
-                sample_id += 1
+                # if classification
+                if isinstance(sample, int):
+                    for token_id in range(len(word_src[sample_id])):
+                        word = word_src[sample_id][token_id].item()
+                        if id2word[word] != "" and id2word[word] != "<pad>":
+                            all_predictions.append(id2word[word] + "\t" + id2label[sample] + "")
+                            true_label = word_tgt[sample_id].item()
+                            all_pairs.append(id2word[word] + "\t" + id2label[sample] + "\t" + id2label[true_label])
+                        token_id += 1
+                    sample_id += 1
+                else:
+                    for token in sample:
+                        word = word_src[sample_id][token_id].item()
+                        if id2word[word] != "" and id2word[word] != "<pad>":
+                            all_predictions.append(id2word[word] + "\t" + id2label[token] + "")
+                            true_label = word_tgt[sample_id][token_id].item()
+                            all_pairs.append(id2word[word] + "\t" + id2label[token] + "\t" + id2label[true_label])
+                        token_id += 1
+                    sample_id += 1
                 all_predictions.append("")
                 all_pairs.append("")
 
         prediction_path = "{}/{}".format(constant.params["model_dir"], constant.params["out"])
-        with open(prediction_path, "w+") as file_out:
+        with open(prediction_path, "w+", encoding="utf-8") as file_out:
             id = 0
             for i in range(len(all_predictions)):
                 if all_predictions[i] != "":
@@ -70,7 +84,7 @@ class Trainer():
                 file_out.write("\n")
 
         words_path = "{}/{}.words".format(constant.params["model_dir"], constant.params["out"])
-        with open(words_path, "w+") as file_out:
+        with open(words_path, "w+", encoding="utf-8") as file_out:
             for i in range(len(all_pairs)):
                 file_out.write(all_pairs[i] + "\n")
 
@@ -98,16 +112,23 @@ class Trainer():
             sample_id = 0
             for sample in predictions.cpu().numpy().tolist():
                 token_id = 0
-                for token in sample:
-                    word = word_src[sample_id][token_id].item()
-                    true_label = word_tgt[sample_id][token_id].item()
-                    sample_predictions.append(id2label[token])
+                # if classification
+                if isinstance(sample, int):
+                    true_label = word_tgt[sample_id].item()
+                    sample_predictions.append(id2label[sample])
                     sample_true_labels.append(id2label[true_label])
-                    if id2word[word] != "<pad>" and id2word[word] != "<bos>" and id2word[word] != "<eos>" and id2word[word] != "<unk>":
-                        all_pairs.append(
-                            id2word[word] + "\t" + id2label[token] + "\t" + id2label[true_label])
-                    token_id += 1
-                sample_id += 1
+                    sample_id += 1
+                else:
+                    for token in sample:
+                        word = word_src[sample_id][token_id].item()
+                        true_label = word_tgt[sample_id][token_id].item()
+                        sample_predictions.append(id2label[token])
+                        sample_true_labels.append(id2label[true_label])
+                        if id2word[word] != "<pad>" and id2word[word] != "<bos>" and id2word[word] != "<eos>" and id2word[word] != "<unk>":
+                            all_pairs.append(
+                                id2word[word] + "\t" + id2label[token] + "\t" + id2label[true_label])
+                        token_id += 1
+                    sample_id += 1
 
             all_predictions.append(sample_predictions)
             all_true_labels.append(sample_true_labels)
@@ -132,7 +153,7 @@ class Trainer():
 
         return all_predictions, all_true_labels, all_pairs, valid_log_loss, all_attn_scores, all_bpe_attn_scores
 
-    def train(self, model, task_name, train_loader, valid_loader, test_loader, word2id, id2word, label2id, id2label, raw_test):
+    def train(self, model, task_name, train_loader, valid_loader, test_loader, word2id, id2word, label2id, id2label, raw_test, metric):
         """
         Train a model on a dataset
         """
@@ -173,7 +194,7 @@ class Trainer():
             compute_num_params(model)[0], compute_num_params(model)[1]))
         print("Training scheme: {} {}".format(lrd_scheme, lrd_range))
 
-        iterations, epochs, best_valid_f1, best_valid_loss, best_epoch = 0, 0, 0, 100, 0
+        iterations, epochs, best_valid, best_valid_loss, best_epoch = 0, 0, 0, 100, 0
         cnt = 0
         start_iter = 0
         for epoch in range(constant.params["num_epochs"]):
@@ -212,32 +233,68 @@ class Trainer():
             # evaluation
             all_predictions, all_true_labels, all_pairs, valid_log_loss, _, _ = self.evaluate(model, valid_loader, word2id, id2word, label2id, id2label)
 
-            metrics = measure(all_pairs)
+            # metrics = measure(all_pairs)
 
-            fb1 = metrics["fb1"] / (100)
+            # fb1 = metrics["fb1"] / (100)
+            # print(all_true_labels)
+            # print(">", all_predictions)
+            fb1 = f1_score(all_true_labels, all_predictions)
+            # accu = accuracy_score(all_true_labels, all_predictions)
 
-            if best_valid_f1 < fb1:
-                print("(Epoch {:d}) save model:".format(epoch+1))
-                best_valid_f1 = fb1
-                best_valid_loss =  np.mean(valid_log_loss)
-                best_epoch = epoch
-                cnt = 0
+            all_flatten_true_labels = []
+            all_flatten_predictions = []
+            for x in all_true_labels:
+                all_flatten_true_labels += list(x)
+            for x in all_predictions:
+                all_flatten_predictions += list(x)
+            # print(all_flatten_true_labels)
+            # print(all_flatten_predictions)
+            accu = accuracy_score(all_flatten_true_labels, all_flatten_predictions)
 
-                if not os.path.isdir(constant.params["model_dir"]):
-                    os.makedirs(constant.params["model_dir"])
+            if metric == "fb1":
+                if best_valid < fb1:
+                    print("(Epoch {:d}) save model:".format(epoch+1))
+                    best_valid = fb1
+                    best_valid_loss =  np.mean(valid_log_loss)
+                    best_epoch = epoch
+                    cnt = 0
 
-                # save model
-                torch.save(model.state_dict(), "{}/{}.pt".format(constant.params["model_dir"], constant.params["save_path"]))
+                    if not os.path.isdir(constant.params["model_dir"]):
+                        os.makedirs(constant.params["model_dir"])
 
-                print("######    Run Prediction   ######")
-                # load the best model
-                # model_path = constant.params["model_dir"] + "/" + constant.params["save_path"] + ".pt"
-                # model.load_state_dict(torch.load(model_path))
-                self.predict(model, test_loader, word2id, id2word, label2id, id2label, raw_test)
-            else:
-                cnt+=1
+                    # save model
+                    torch.save(model.state_dict(), "{}/{}.pt".format(constant.params["model_dir"], constant.params["save_path"]))
+
+                    print("######    Run Prediction   ######")
+                    # load the best model
+                    # model_path = constant.params["model_dir"] + "/" + constant.params["save_path"] + ".pt"
+                    # model.load_state_dict(torch.load(model_path))
+                    self.predict(model, test_loader, word2id, id2word, label2id, id2label, raw_test)
+                else:
+                    cnt+=1
+            elif metric == "accu":
+                if best_valid < accu:
+                    print("(Epoch {:d}) save model:".format(epoch+1))
+                    best_valid = accu
+                    best_valid_loss =  np.mean(valid_log_loss)
+                    best_epoch = epoch
+                    cnt = 0
+
+                    if not os.path.isdir(constant.params["model_dir"]):
+                        os.makedirs(constant.params["model_dir"])
+
+                    # save model
+                    torch.save(model.state_dict(), "{}/{}.pt".format(constant.params["model_dir"], constant.params["save_path"]))
+
+                    print("######    Run Prediction   ######")
+                    # load the best model
+                    # model_path = constant.params["model_dir"] + "/" + constant.params["save_path"] + ".pt"
+                    # model.load_state_dict(torch.load(model_path))
+                    self.predict(model, test_loader, word2id, id2word, label2id, id2label, raw_test)
+                else:
+                    cnt+=1
             
-            print("(Epoch {:d}) Val loss: {:3.5f}, fb1: {:3.5f}, best fb1: {:3.5f}".format((epoch+1), np.mean(valid_log_loss), fb1, best_valid_f1))
+            print("(Epoch {:d}) Val loss: {:3.5f}, accu: {:3.5}, fb1: {:3.5f}, best-{}: {:3.5f}".format((epoch+1), np.mean(valid_log_loss), accu, fb1, metric, best_valid))
             if cnt >= constant.params["early_stop"]: # early stopping
                 break
-        return best_valid_f1, best_valid_loss, best_epoch
+        return best_valid, best_valid_loss, best_epoch

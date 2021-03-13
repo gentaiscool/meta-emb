@@ -13,10 +13,8 @@ import sys
 from tqdm import tqdm
 
 from modules import transformer
-from modules.embedding import gen_new_bpe_embedding, BPEMetaEmbedding
+from modules.meta_embedding import gen_new_bpe_embedding, BPEMetaEmbedding, gen_new_word_embedding
 from modules.outputs import CRFOutputLayer, SoftmaxOutputLayer
-
-from eval.metrics import measure
 
 import numpy as np
 import math
@@ -39,8 +37,8 @@ def gen_word_embeddings(word2id, id2word, emb_dim, emb_file):
                 if sp[0] in word2id:
                     pre_trained += 1
                     embeddings[word2id[sp[0]]] = [float(x) for x in sp[1:]]
-            else:
-                print("Error:",sp[0])
+            # else:
+            #     print("Error:",sp[0])
             num_line += 1
         print('Pre-trained: %d (%.2f%%)' % (pre_trained, pre_trained * 100.0 / len(word2id)))
         print('Num line: %d' % (num_line))
@@ -139,7 +137,7 @@ class TransformerTagger(nn.Module):
 
         self.pretrained_emb = []
         if self.emb_list is not None and not self.no_word_emb:
-            self.pretrained_emb = [gen_new_embedding(word2id, id2word, emb_size, file_path) for file_path in self.emb_list]
+            self.pretrained_emb = [gen_new_word_embedding(word2id, id2word, emb_size, file_path) for file_path in self.emb_list]
 
         if self.add_emb:
             if len(self.pretrained_emb) > 0:
@@ -381,6 +379,7 @@ class TransformerTagger(nn.Module):
             all_embs = torch.cat(all_embs, dim=-1)
 
         hidden = self.compute(all_embs, src_lengths=src_lengths)
+
         output = self.output_layer(hidden)
 
         if print_loss:

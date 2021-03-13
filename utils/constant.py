@@ -84,6 +84,12 @@ parser.add_argument('--mode', type=str, default='attn_sum', help='attn_sum or co
 parser.add_argument('--no_projection', action='store_true',
                     help='without projection matrix')
 
+parser.add_argument('--default_label', type=str, default='O', help='O')
+parser.add_argument('--metric', type=str, default='fb1', help='fb1/acc')
+
+# for eval
+parser.add_argument('--pred_file', type=str, default='predictions.txt')
+
 args = parser.parse_args()
 
 USE_CUDA = args.cuda
@@ -137,7 +143,10 @@ params = {
     "add_char_emb": args.add_char_emb,
     "early_stop": args.early_stop,
     "mode": args.mode,
-    "no_projection": args.no_projection
+    "no_projection": args.no_projection,
+    "default_label": args.default_label,
+    "metric": args.metric,
+    "pred_file": args.pred_file
 }
 
 print(params)

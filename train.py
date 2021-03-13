@@ -11,11 +11,11 @@ import logging
 from tqdm import tqdm
 
 from models.transformer_tagger import TransformerTagger
+from models.transformer_classifier import TransformerClassifier
 from trainers.trainer import Trainer
 from utils import constant
 from utils.data import prepare_dataset
 from utils.training_common import compute_num_params, lr_decay_map
-from eval.metrics import measure
 
 import numpy as np
 
@@ -23,10 +23,14 @@ print("###### Initialize trainer  ######")
 trainer = Trainer()
 
 eval_batch_size = 10
-train_loader, valid_loader, test_loader, word2id, id2word, char2id, id2char, label2id, id2label, raw_test, bpe_embs = prepare_dataset(constant.params["train_file"], constant.params["valid_file"], constant.params["test_file"], constant.params["batch_size"], eval_batch_size, bpe_lang_list=constant.params["bpe_lang_list"], bpe_vocab=constant.params["bpe_vocab"], bpe_emb_size=constant.params["bpe_emb_size"], bpe_cache=constant.params["bpe_cache"])
+print("train_file:", constant.params["train_file"])
+print("valid_file:", constant.params["valid_file"])
+print("test_file:", constant.params["test_file"])
+train_loader, valid_loader, test_loader, word2id, id2word, char2id, id2char, label2id, id2label, raw_test, bpe_embs = prepare_dataset(constant.params["train_file"], constant.params["valid_file"], constant.params["test_file"], constant.params["batch_size"], eval_batch_size, bpe_lang_list=constant.params["bpe_lang_list"], bpe_vocab=constant.params["bpe_vocab"], bpe_emb_size=constant.params["bpe_emb_size"], bpe_cache=constant.params["bpe_cache"], eval_type=constant.params["eval"], default_label=constant.params["default_label"])
 
 print("###### Prepare the dataset ######")
 
+eval_task = constant.params["eval"]
 emb_size = constant.params["embedding_size_word"]
 char_emb_size = constant.params["embedding_size_char"]
 hidden_size = constant.params["hidden_size"]
@@ -55,17 +59,24 @@ bpe_vocab = constant.params["bpe_vocab"]
 mode = constant.params["mode"]
 no_projection = constant.params["no_projection"]
 use_crf = constant.params["use_crf"]
+metric = constant.params["metric"]
 
 cuda = constant.USE_CUDA
 pad_idx = 0
 
 print("######    Start training   ######")
-model = TransformerTagger(emb_size, hidden_size, num_layers, num_heads, dim_key, dim_value, filter_size, max_length, input_dropout, dropout, attn_dropout, relu_dropout, word2id, id2word, char2id, id2char, label2id, id2label, char_emb_size=char_emb_size, char_hidden_size=char_hidden_size, emb_list=emb_list, cuda=cuda, pad_idx=pad_idx, use_crf=use_crf, add_emb=add_emb, 
-add_char_emb=add_char_emb, no_word_emb=no_word_emb, mode=mode, no_projection=no_projection, bpe_emb_size=bpe_emb_size, bpe_hidden_size=bpe_hidden_size, bpe_lang_list=bpe_lang_list, bpe_vocab=bpe_vocab, bpe_embs=bpe_embs)
+if eval_task == "classification":
+    model = TransformerClassifier(emb_size, hidden_size, num_layers, num_heads, dim_key, dim_value, filter_size, max_length, input_dropout, dropout, attn_dropout, relu_dropout, word2id, id2word, char2id, id2char, label2id, id2label, char_emb_size=char_emb_size, char_hidden_size=char_hidden_size, emb_list=emb_list, cuda=cuda, pad_idx=pad_idx, use_crf=use_crf, add_emb=add_emb, add_char_emb=add_char_emb, no_word_emb=no_word_emb, mode=mode, no_projection=no_projection, bpe_emb_size=bpe_emb_size, bpe_hidden_size=bpe_hidden_size, bpe_lang_list=bpe_lang_list, bpe_vocab=bpe_vocab, bpe_embs=bpe_embs)
+else:
+    model = TransformerTagger(emb_size, hidden_size, num_layers, num_heads, dim_key, dim_value, filter_size, max_length, input_dropout, dropout, attn_dropout, relu_dropout, word2id, id2word, char2id, id2char, label2id, id2label, char_emb_size=char_emb_size, char_hidden_size=char_hidden_size, emb_list=emb_list, cuda=cuda, pad_idx=pad_idx, use_crf=use_crf, add_emb=add_emb, add_char_emb=add_char_emb, no_word_emb=no_word_emb, mode=mode, no_projection=no_projection, bpe_emb_size=bpe_emb_size, bpe_hidden_size=bpe_hidden_size, bpe_lang_list=bpe_lang_list, bpe_vocab=bpe_vocab, bpe_embs=bpe_embs)
 print(model)
 
-best_valid_f1, best_valid_loss, best_epoch = trainer.train(model, constant.params["task_name"], train_loader, valid_loader, test_loader, word2id, id2word, label2id, id2label, raw_test)
+best_valid, best_valid_loss, best_epoch = trainer.train(model, constant.params["task_name"], train_loader, valid_loader, test_loader, word2id, id2word, label2id, id2label, raw_test, metric)
 
+if not os.path.isdir("saved_models"):
+    os.mkdir("saved_models")
+if not os.path.isdir(constant.params["model_dir"]):
+    os.mkdir(constant.params["model_dir"])
 summary_path = "{}/summary.txt".format(constant.params["model_dir"])
 with open(summary_path, "w+") as summary_file:
-    summary_file.write("Best valid f1:{:3.5f} Best valid loss:{:3.5} at epoch:{:d}".format(best_valid_f1, best_valid_loss, best_epoch))
+    summary_file.write("Best valid {}:{:3.5f} Best valid loss:{:3.5} at epoch:{:d}".format(metric, best_valid, best_valid_loss, best_epoch))

@@ -1,0 +1,171 @@
+python train.py --emb_list embedding/crawl-300d-2M-subword_lince_ner_eng_spa.vec embedding/cc.es.300_lince_ner_eng_spa.vec embedding/cc.ca.300_lince_ner_eng_spa.vec embedding/cc.pt.300_lince_ner_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char --batch_size 32 --mode attn_sum --train_file data/lince_ner_eng_spa/train.conll --valid_file data/lince_ner_eng_spa/dev.conll --test_file data/lince_ner_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt --add_char_emb
+
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_ner_eng_spa.vec embedding/cc.es.300_lince_ner_eng_spa.vec embedding/cc.ca.300_lince_ner_eng_spa.vec embedding/cc.pt.300_lince_ner_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char2 --batch_size 32 --mode attn_sum --train_file data/lince_ner_eng_spa/train.conll --valid_file data/lince_ner_eng_spa/dev.conll --test_file data/lince_ner_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt --add_char_emb
+
+
+CUDA_VISIBLE_DEVICES=0 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_ner_eng_spa.vec embedding/cc.es.300_lince_ner_eng_spa.vec embedding/cc.ca.300_lince_ner_eng_spa.vec embedding/cc.pt.300_lince_ner_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char4 --batch_size 32 --mode attn_sum --train_file data/lince_ner_eng_spa/train.conll --valid_file data/lince_ner_eng_spa/dev.conll --test_file data/lince_ner_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt --add_char_emb
+CUDA_VISIBLE_DEVICES=0 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_ner_eng_spa.vec embedding/cc.es.300_lince_ner_eng_spa.vec embedding/cc.ca.300_lince_ner_eng_spa.vec embedding/cc.pt.300_lince_ner_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char5 --batch_size 32 --mode attn_sum --train_file data/lince_ner_eng_spa/train.conll --valid_file data/lince_ner_eng_spa/dev.conll --test_file data/lince_ner_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt --add_char_emb
+
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_ner_eng_spa.vec embedding/cc.es.300_lince_ner_eng_spa.vec embedding/cc.ca.300_lince_ner_eng_spa.vec embedding/cc.pt.300_lince_ner_eng_spa.vec embedding/cc.de.300_lince_ner_eng_spa.vec embedding/cc.fr.300_lince_ner_eng_spa.vec embedding/cc.it.300_lince_ner_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir attn_sum_eng_spa_trfs_crf_lr0.1_b16_en_es_ca_pt_de_fr_it_bpe_char --batch_size 16 --mode attn_sum --train_file data/lince_ner_eng_spa/train.conll --valid_file data/lince_ner_eng_spa/dev.conll --test_file data/lince_ner_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt de fr it --add_char_emb
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_ner_eng_spa.vec embedding/cc.es.300_lince_ner_eng_spa.vec embedding/cc.ca.300_lince_ner_eng_spa.vec embedding/cc.pt.300_lince_ner_eng_spa.vec embedding/cc.de.300_lince_ner_eng_spa.vec embedding/cc.fr.300_lince_ner_eng_spa.vec embedding/cc.it.300_lince_ner_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir attn_sum_eng_spa_trfs_crf_lr0.1_b16_en_es_ca_pt_de_fr_it_bpe_char2 --batch_size 16 --mode attn_sum --train_file data/lince_ner_eng_spa/train.conll --valid_file data/lince_ner_eng_spa/dev.conll --test_file data/lince_ner_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt de fr it --add_char_emb
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_ner_eng_spa.vec embedding/cc.es.300_lince_ner_eng_spa.vec embedding/cc.ca.300_lince_ner_eng_spa.vec embedding/cc.pt.300_lince_ner_eng_spa.vec embedding/cc.de.300_lince_ner_eng_spa.vec embedding/cc.fr.300_lince_ner_eng_spa.vec embedding/cc.it.300_lince_ner_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir attn_sum_eng_spa_trfs_crf_lr0.1_b16_en_es_ca_pt_de_fr_it_bpe_char3 --batch_size 16 --mode attn_sum --train_file data/lince_ner_eng_spa/train.conll --valid_file data/lince_ner_eng_spa/dev.conll --test_file data/lince_ner_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt de fr it --add_char_emb
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_ner_eng_spa.vec embedding/cc.es.300_lince_ner_eng_spa.vec embedding/cc.ca.300_lince_ner_eng_spa.vec embedding/cc.pt.300_lince_ner_eng_spa.vec embedding/cc.de.300_lince_ner_eng_spa.vec embedding/cc.fr.300_lince_ner_eng_spa.vec embedding/cc.it.300_lince_ner_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir attn_sum_eng_spa_trfs_crf_lr0.1_b16_en_es_ca_pt_de_fr_it_bpe_char4 --batch_size 16 --mode attn_sum --train_file data/lince_ner_eng_spa/train.conll --valid_file data/lince_ner_eng_spa/dev.conll --test_file data/lince_ner_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt de fr it --add_char_emb
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_ner_eng_spa.vec embedding/cc.es.300_lince_ner_eng_spa.vec embedding/cc.ca.300_lince_ner_eng_spa.vec embedding/cc.pt.300_lince_ner_eng_spa.vec embedding/cc.de.300_lince_ner_eng_spa.vec embedding/cc.fr.300_lince_ner_eng_spa.vec embedding/cc.it.300_lince_ner_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir attn_sum_eng_spa_trfs_crf_lr0.1_b16_en_es_ca_pt_de_fr_it_bpe_char5 --batch_size 16 --mode attn_sum --train_file data/lince_ner_eng_spa/train.conll --valid_file data/lince_ner_eng_spa/dev.conll --test_file data/lince_ner_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt de fr it --add_char_emb
+
+
+
+
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/cc.arz.300_lince_ner_msa_ea.vec embedding/cc.ar.300_lince_ner_msa_ea.vec --cuda --use_crf --model_dir attn_sum_msa_ea_trfs_crf_lr0.1_b32_arz_ar_bpe_char --batch_size 32 --mode attn_sum --train_file data/lince_ner_msa_ea/train.conll --valid_file data/lince_ner_msa_ea/dev.conll --test_file data/lince_ner_msa_ea/test.conll --lr 0.1 --bpe_lang_list arz ar --add_char_emb
+
+CUDA_VISIBLE_DEVICES=3 python train.py --emb_list embedding/cc.arz.300_lince_ner_msa_ea.vec embedding/cc.ar.300_lince_ner_msa_ea.vec --cuda --use_crf --model_dir attn_sum_msa_ea_trfs_crf_lr0.1_b32_arz_ar_bpe_char2 --batch_size 32 --mode attn_sum --train_file data/lince_ner_msa_ea/train.conll --valid_file data/lince_ner_msa_ea/dev.conll --test_file data/lince_ner_msa_ea/test.conll --lr 0.1 --bpe_lang_list arz ar --add_char_emb
+
+CUDA_VISIBLE_DEVICES=0 python train.py --emb_list embedding/cc.arz.300_lince_ner_msa_ea.vec embedding/cc.ar.300_lince_ner_msa_ea.vec --cuda --use_crf --model_dir attn_sum_msa_ea_trfs_crf_lr0.1_b32_arz_ar_bpe_char3 --batch_size 32 --mode attn_sum --train_file data/lince_ner_msa_ea/train.conll --valid_file data/lince_ner_msa_ea/dev.conll --test_file data/lince_ner_msa_ea/test.conll --lr 0.1 --bpe_lang_list arz ar --add_char_emb
+
+CUDA_VISIBLE_DEVICES=2 python train.py --emb_list embedding/cc.arz.300_lince_ner_msa_ea.vec embedding/cc.ar.300_lince_ner_msa_ea.vec --cuda --use_crf --model_dir attn_sum_msa_ea_trfs_crf_lr0.1_b32_arz_ar_bpe_char4 --batch_size 32 --mode attn_sum --train_file data/lince_ner_msa_ea/train.conll --valid_file data/lince_ner_msa_ea/dev.conll --test_file data/lince_ner_msa_ea/test.conll --lr 0.1 --bpe_lang_list arz ar --add_char_emb
+
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/cc.arz.300_lince_ner_msa_ea.vec embedding/cc.ar.300_lince_ner_msa_ea.vec --cuda --use_crf --model_dir attn_sum_msa_ea_trfs_crf_lr0.1_b32_arz_ar_bpe_char5 --batch_size 32 --mode attn_sum --train_file data/lince_ner_msa_ea/train.conll --valid_file data/lince_ner_msa_ea/dev.conll --test_file data/lince_ner_msa_ea/test.conll --lr 0.1 --bpe_lang_list arz ar --add_char_emb
+
+
+
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_ner_hin_eng.vec embedding/cc.hi.300_lince_ner_hin_eng.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir attn_sum_hin_eng_trfs_crf_lr0.1_b8_hi_en_bpe_char --batch_size 8 --mode attn_sum --train_file data/lince_ner_hin_eng/train.conll --valid_file data/lince_ner_hin_eng/dev.conll --test_file data/lince_ner_hin_eng/test.conll --lr 0.1 --bpe_lang_list hi en --add_char_emb --early_stop 10
+
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_ner_hin_eng.vec embedding/cc.hi.300_lince_ner_hin_eng.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir attn_sum_hin_eng_trfs_crf_lr0.1_b8_hi_en_bpe_char2 --batch_size 8 --mode attn_sum --train_file data/lince_ner_hin_eng/train.conll --valid_file data/lince_ner_hin_eng/dev.conll --test_file data/lince_ner_hin_eng/test.conll --lr 0.1 --bpe_lang_list hi en --add_char_emb --early_stop 10
+
+CUDA_VISIBLE_DEVICES=3 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_ner_hin_eng.vec embedding/cc.hi.300_lince_ner_hin_eng.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir attn_sum_hin_eng_trfs_crf_lr0.1_b8_hi_en_bpe_char3 --batch_size 8 --mode attn_sum --train_file data/lince_ner_hin_eng/train.conll --valid_file data/lince_ner_hin_eng/dev.conll --test_file data/lince_ner_hin_eng/test.conll --lr 0.1 --bpe_lang_list hi en --add_char_emb
+--early_stop 10
+
+CUDA_VISIBLE_DEVICES=2 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_ner_hin_eng.vec embedding/cc.hi.300_lince_ner_hin_eng.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir attn_sum_hin_eng_trfs_crf_lr0.1_b8_hi_en_bpe_char4 --batch_size 8 --mode attn_sum --train_file data/lince_ner_hin_eng/train.conll --valid_file data/lince_ner_hin_eng/dev.conll --test_file data/lince_ner_hin_eng/test.conll --lr 0.1 --bpe_lang_list hi en --add_char_emb --early_stop 10
+
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_ner_hin_eng.vec embedding/cc.hi.300_lince_ner_hin_eng.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir attn_sum_hin_eng_trfs_crf_lr0.1_b8_hi_en_bpe_char5 --batch_size 8 --mode attn_sum --train_file data/lince_ner_hin_eng/train.conll --valid_file data/lince_ner_hin_eng/dev.conll --test_file data/lince_ner_hin_eng/test.conll --lr 0.1 --bpe_lang_list hi en --add_char_emb --early_stop 10
+
+
+
+
+CUDA_VISIBLE_DEVICES=0 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_lid_eng_spa.vec embedding/cc.es.300_lince_lid_eng_spa.vec embedding/cc.ca.300_lince_lid_eng_spa.vec embedding/cc.pt.300_lince_lid_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir lid_attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char --batch_size 128 --mode attn_sum --train_file data/lince_lid_eng_spa/train.conll --valid_file data/lince_lid_eng_spa/dev.conll --test_file data/lince_lid_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt --add_char_emb --default_label lang1
+
+CUDA_VISIBLE_DEVICES=0 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_lid_eng_spa.vec embedding/cc.es.300_lince_lid_eng_spa.vec embedding/cc.ca.300_lince_lid_eng_spa.vec embedding/cc.pt.300_lince_lid_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir lid_attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char2 --batch_size 32 --mode attn_sum --train_file data/lince_lid_eng_spa/train.conll --valid_file data/lince_lid_eng_spa/dev.conll --test_file data/lince_lid_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt --add_char_emb --default_label lang1
+
+CUDA_VISIBLE_DEVICES=0 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_lid_eng_spa.vec embedding/cc.es.300_lince_lid_eng_spa.vec embedding/cc.ca.300_lince_lid_eng_spa.vec embedding/cc.pt.300_lince_lid_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir lid_attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char3 --batch_size 32 --mode attn_sum --train_file data/lince_lid_eng_spa/train.conll --valid_file data/lince_lid_eng_spa/dev.conll --test_file data/lince_lid_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt --add_char_emb --default_label lang1
+
+CUDA_VISIBLE_DEVICES=0 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_lid_eng_spa.vec embedding/cc.es.300_lince_lid_eng_spa.vec embedding/cc.ca.300_lince_lid_eng_spa.vec embedding/cc.pt.300_lince_lid_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir lid_attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char4 --batch_size 32 --mode attn_sum --train_file data/lince_lid_eng_spa/train.conll --valid_file data/lince_lid_eng_spa/dev.conll --test_file data/lince_lid_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt --add_char_emb --default_label lang1
+
+CUDA_VISIBLE_DEVICES=0 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_lid_eng_spa.vec embedding/cc.es.300_lince_lid_eng_spa.vec --cuda --use_crf --model_dir lid_attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char5 --batch_size 32 --mode attn_sum --train_file data/lince_lid_eng_spa/train.conll --valid_file data/lince_lid_eng_spa/dev.conll --test_file data/lince_lid_eng_spa/test.conll --lr 0.1 --default_label lang1 --hidden_size 768 --num_layers 2
+
+
+
+
+
+
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_pos_hin_eng.vec embedding/cc.hi.300_lince_pos_hin_eng.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir pos_attn_sum_hin_eng_trfs_crf_lr0.1_b8_hi_en_bpe_char --batch_size 8 --mode attn_sum --train_file data/lince_pos_hin_eng/train.conll --valid_file data/lince_pos_hin_eng/dev.conll --test_file data/lince_pos_hin_eng/test.conll --lr 0.1 --bpe_lang_list hi en --add_char_emb --early_stop 10 --default_label NOUN
+
+CUDA_VISIBLE_DEVICES=2 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_pos_hin_eng.vec embedding/cc.hi.300_lince_pos_hin_eng.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir pos_attn_sum_hin_eng_trfs_crf_lr0.1_b8_hi_en_bpe_char2 --batch_size 8 --mode attn_sum --train_file data/lince_pos_hin_eng/train.conll --valid_file data/lince_pos_hin_eng/dev.conll --test_file data/lince_pos_hin_eng/test.conll --lr 0.1 --bpe_lang_list hi en --add_char_emb --early_stop 10 --default_label NOUN
+
+CUDA_VISIBLE_DEVICES=3 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_pos_hin_eng.vec embedding/cc.hi.300_lince_pos_hin_eng.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir pos_attn_sum_hin_eng_trfs_crf_lr0.1_b8_hi_en_bpe_char3 --batch_size 8 --mode attn_sum --train_file data/lince_pos_hin_eng/train.conll --valid_file data/lince_pos_hin_eng/dev.conll --test_file data/lince_pos_hin_eng/test.conll --lr 0.1 --bpe_lang_list hi en --add_char_emb --early_stop 10 --default_label NOUN
+
+CUDA_VISIBLE_DEVICES=0 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_pos_hin_eng.vec embedding/cc.hi.300_lince_pos_hin_eng.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir pos_attn_sum_hin_eng_trfs_crf_lr0.1_b8_hi_en_bpe_char4 --batch_size 8 --mode attn_sum --train_file data/lince_pos_hin_eng/train.conll --valid_file data/lince_pos_hin_eng/dev.conll --test_file data/lince_pos_hin_eng/test.conll --lr 0.1 --bpe_lang_list hi en --add_char_emb --early_stop 10 --default_label NOUN
+
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_pos_hin_eng.vec embedding/cc.hi.300_lince_pos_hin_eng.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir pos_attn_sum_hin_eng_trfs_crf_lr0.1_b8_hi_en_bpe_char5 --batch_size 8 --mode attn_sum --train_file data/lince_pos_hin_eng/train.conll --valid_file data/lince_pos_hin_eng/dev.conll --test_file data/lince_pos_hin_eng/test.conll --lr 0.1 --bpe_lang_list hi en --add_char_emb --early_stop 10 --default_label NOUN
+
+
+
+
+
+
+
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_pos_eng_spa.vec embedding/cc.es.300_lince_pos_eng_spa.vec embedding/cc.ca.300_lince_pos_eng_spa.vec embedding/cc.pt.300_lince_pos_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir pos_attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char --batch_size 32 --mode attn_sum --train_file data/lince_pos_eng_spa/train.conll --valid_file data/lince_pos_eng_spa/dev.conll --test_file data/lince_pos_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt --add_char_emb --default_label NOUN
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_pos_eng_spa.vec embedding/cc.es.300_lince_pos_eng_spa.vec embedding/cc.ca.300_lince_pos_eng_spa.vec embedding/cc.pt.300_lince_pos_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir pos_attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char2 --batch_size 32 --mode attn_sum --train_file data/lince_pos_eng_spa/train.conll --valid_file data/lince_pos_eng_spa/dev.conll --test_file data/lince_pos_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt --add_char_emb --default_label NOUN
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_pos_eng_spa.vec embedding/cc.es.300_lince_pos_eng_spa.vec embedding/cc.ca.300_lince_pos_eng_spa.vec embedding/cc.pt.300_lince_pos_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir pos_attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char3 --batch_size 32 --mode attn_sum --train_file data/lince_pos_eng_spa/train.conll --valid_file data/lince_pos_eng_spa/dev.conll --test_file data/lince_pos_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt --add_char_emb --default_label NOUN
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_pos_eng_spa.vec embedding/cc.es.300_lince_pos_eng_spa.vec embedding/cc.ca.300_lince_pos_eng_spa.vec embedding/cc.pt.300_lince_pos_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir pos_attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char4 --batch_size 32 --mode attn_sum --train_file data/lince_pos_eng_spa/train.conll --valid_file data/lince_pos_eng_spa/dev.conll --test_file data/lince_pos_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt --add_char_emb --default_label NOUN
+CUDA_VISIBLE_DEVICES=2 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_pos_eng_spa.vec embedding/cc.es.300_lince_pos_eng_spa.vec embedding/cc.ca.300_lince_pos_eng_spa.vec embedding/cc.pt.300_lince_pos_eng_spa.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir pos_attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char5 --batch_size 32 --mode attn_sum --train_file data/lince_pos_eng_spa/train.conll --valid_file data/lince_pos_eng_spa/dev.conll --test_file data/lince_pos_eng_spa/test.conll --lr 0.1 --bpe_lang_list en es ca pt --add_char_emb --default_label NOUN
+
+
+
+
+
+
+
+
+CUDA_VISIBLE_DEVICES=0 python train.py --emb_list embedding/glove.840B.300d.txt --cuda --use_crf --model_dir sa_attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char --batch_size 32 --mode attn_sum --train_file data/lince_sa_eng_spa/train.conll --valid_file data/lince_sa_eng_spa/dev.conll --test_file data/lince_sa_eng_spa/test.conll --lr 0.1 --eval classification --default_label positive
+
+
+
+
+CUDA_VISIBLE_DEVICES=0 python train.py --emb_list embedding/crawl-300d-2M-subword_lince_sa_eng_spa.vec --cuda --use_crf --model_dir sa_attn_sum_eng_spa_trfs_crf_lr0.1_b32_en_es_ca_pt_bpe_char --batch_size 32 --mode attn_sum --train_file data/lince_sa_eng_spa/train.conll --valid_file data/lince_sa_eng_spa/dev.conll --test_file data/lince_sa_eng_spa/test.conll --lr 0.1 --eval classification --default_label positive
+
+
+
+
+
+
+
+
+CUDA_VISIBLE_DEVICES=1 python train.py --emb_list embedding/cc.arz.300_lince_lid_msa_ea.vec embedding/cc.ar.300_lince_lid_msa_ea.vec embedding/glove.840B.300d.txt --cuda --use_crf --model_dir lid_attn_sum_msa_ea_trfs_crf_lr0.1_b32_arz_ar_bpe_char --batch_size 32 --mode attn_sum --train_file data/lince_lid_msa_ea/train.conll --valid_file data/lince_lid_msa_ea/dev.conll --test_file data/lince_lid_msa_ea/test.conll --lr 0.1 --bpe_lang_list arz ar --add_char_emb
+
+
+
+
+jackykhun177@gmail.com
+qwertytrewq123454321
+
+
+
+
+
+
+
+./fasttext print-word-vectors ../meta-emb/embedding/cc.ar.300.bin < ../meta-emb/data/lince_ner_msa_ea/vocab.txt > ../meta-emb/embedding/cc.ar.300_lince_ner_msa_ea.vec
+
+
+
+
+./fasttext print-word-vectors ../meta-emb/embedding/cc.es.300.bin < ../meta-emb/data/lince_lid_eng_spa/vocab.txt > ../meta-emb/embedding/cc.es.300_lince_lid_eng_spa.vec
+
+./fasttext print-word-vectors ../meta-emb/embedding/cc.ca.300.bin < ../meta-emb/data/lince_lid_eng_spa/vocab.txt > ../meta-emb/embedding/cc.ca.300_lince_lid_eng_spa.vec
+
+./fasttext print-word-vectors ../meta-emb/embedding/cc.pt.300.bin < ../meta-emb/data/lince_lid_eng_spa/vocab.txt > ../meta-emb/embedding/cc.pt.300_lince_lid_eng_spa.vec
+
+./fasttext print-word-vectors ../meta-emb/embedding/crawl-300d-2M-subword.bin < ../meta-emb/data/lince_lid_eng_spa/vocab.txt > ../meta-emb/embedding/crawl-300d-2M-subword_lince_lid_eng_spa.vec
+
+
+
+
+
+./fasttext print-word-vectors ../meta-emb/embedding/cc.hi.300.bin < ../meta-emb/data/lince_pos_hin_eng/vocab.txt > ../meta-emb/embedding/cc.hi.300_lince_pos_hin_eng.vec
+
+./fasttext print-word-vectors ../meta-emb/embedding/crawl-300d-2M-subword.bin < ../meta-emb/data/lince_pos_hin_eng/vocab.txt > ../meta-emb/embedding/crawl-300d-2M-subword_lince_pos_hin_eng.vec
+
+
+
+
+
+
+./fasttext print-word-vectors ../meta-emb/embedding/cc.es.300.bin < ../meta-emb/data/lince_pos_eng_spa/vocab.txt > ../meta-emb/embedding/cc.es.300_lince_pos_eng_spa.vec
+
+./fasttext print-word-vectors ../meta-emb/embedding/cc.ca.300.bin < ../meta-emb/data/lince_pos_eng_spa/vocab.txt > ../meta-emb/embedding/cc.ca.300_lince_pos_eng_spa.vec
+
+./fasttext print-word-vectors ../meta-emb/embedding/cc.pt.300.bin < ../meta-emb/data/lince_pos_eng_spa/vocab.txt > ../meta-emb/embedding/cc.pt.300_lince_pos_eng_spa.vec
+
+./fasttext print-word-vectors ../meta-emb/embedding/crawl-300d-2M-subword.bin < ../meta-emb/data/lince_pos_eng_spa/vocab.txt > ../meta-emb/embedding/crawl-300d-2M-subword_lince_pos_eng_spa.vec
+
+
+
+
+
+
+
+
+
+./fasttext print-word-vectors ../meta-emb/embedding/cc.es.300.bin < ../meta-emb/data/lince_sa_eng_spa/vocab.txt > ../meta-emb/embedding/cc.es.300_lince_sa_eng_spa.vec
+
+./fasttext print-word-vectors ../meta-emb/embedding/cc.ca.300.bin < ../meta-emb/data/lince_sa_eng_spa/vocab.txt > ../meta-emb/embedding/cc.ca.300_lince_sa_eng_spa.vec
+
+./fasttext print-word-vectors ../meta-emb/embedding/cc.pt.300.bin < ../meta-emb/data/lince_sa_eng_spa/vocab.txt > ../meta-emb/embedding/cc.pt.300_lince_sa_eng_spa.vec
+
+./fasttext print-word-vectors ../meta-emb/embedding/crawl-300d-2M-subword.bin < ../meta-emb/data/lince_sa_eng_spa/vocab.txt > ../meta-emb/embedding/crawl-300d-2M-subword_lince_sa_eng_spa.vec
+
+
+
+
+./fasttext print-word-vectors ../meta-emb/embedding/cc.ar.300.bin < ../meta-emb/data/lince_lid_msa_ea/vocab.txt > ../meta-emb/embedding/cc.ar.300_lince_lid_msa_ea.vec
+
+./fasttext print-word-vectors ../meta-emb/embedding/cc.arz.300.bin < ../meta-emb/data/lince_lid_msa_ea/vocab.txt > ../meta-emb/embedding/cc.arz.300_lince_lid_msa_ea.vec

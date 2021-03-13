@@ -34,8 +34,8 @@ def read_word_embeddings(word2id, id2word, emb_dim, emb_file):
                 if sp[0] in word2id:
                     pre_trained += 1
                     embeddings[word2id[sp[0]]] = [float(x) for x in sp[1:]]
-            else:
-                print("Error:",sp[0])
+            # else:
+            #     print("Error:",sp[0])
             num_line += 1
         print('Pre-trained: %d (%.2f%%)' % (pre_trained, pre_trained * 100.0 / len(word2id)))
         print('Num line: %d' % (num_line))
