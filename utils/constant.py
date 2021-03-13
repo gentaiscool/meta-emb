@@ -89,6 +89,7 @@ parser.add_argument('--metric', type=str, default='fb1', help='fb1/acc')
 
 # for eval
 parser.add_argument('--pred_file', type=str, default='predictions.txt')
+parser.add_argument('--num_eval', type=int, default=1)
 
 args = parser.parse_args()
 
@@ -146,7 +147,8 @@ params = {
     "no_projection": args.no_projection,
     "default_label": args.default_label,
     "metric": args.metric,
-    "pred_file": args.pred_file
+    "pred_file": args.pred_file,
+    'num_eval': args.num_eval
 }
 
 print(params)

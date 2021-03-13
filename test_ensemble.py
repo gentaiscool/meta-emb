@@ -16,7 +16,6 @@ from utils import constant
 from utils.data import prepare_dataset
 from utils.training_common import compute_num_params, lr_decay_map
 from seqeval.metrics import f1_score
-# from seqeval.metrics import accuracy_score
 from sklearn.metrics import accuracy_score
 
 import numpy as np
@@ -53,6 +52,7 @@ use_crf = constant.params["use_crf"]
 metric = constant.params["metric"]
 
 pred_file = constant.params["pred_file"]
+num_eval = constant.params["num_eval"]
 
 cuda = constant.USE_CUDA
 pad_idx = 0
@@ -131,7 +131,7 @@ def predict(model, test_loader, word2id, id2word, label2id, id2label, raw_test):
 
 all_valid_ensemble_predictions, all_valid_ensemble_true_labels = [], []
 all_test_ensemble_predictions = []
-for i in range(1, 6):
+for i in range(1, num_eval + 1):
     if i > 1:
         PATH = "{}/{}.pt".format(constant.params["model_dir"][:-1] + "_" + str(i), constant.params["save_path"])
     else:
@@ -177,7 +177,7 @@ for i in range(len(all_valid_ensemble_predictions[0])):
         m = {}
         best_val = 0
         best_key = None
-        for j in range(1, 6):
+        for j in range(1, num_eval+1):
             key = all_valid_ensemble_predictions[j-1][i][l]
             if key not in m:
                 m[key] = 1
@@ -196,7 +196,7 @@ for i in range(len(all_test_ensemble_predictions[0])):
         m = {}
         best_val = 0
         best_key = None
-        for j in range(1, 6):
+        for j in range(1, num_eval+1):
             key = all_test_ensemble_predictions[j-1][i].split("\t")[-1]
             if key not in m:
                 m[key] = 1
