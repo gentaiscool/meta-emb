@@ -15,7 +15,8 @@ from trainers.trainer import Trainer
 from utils import constant
 from utils.data import prepare_dataset
 from utils.training_common import compute_num_params, lr_decay_map
-from eval.metrics import measure
+from seqeval.metrics import f1_score
+from sklearn.metrics import accuracy_score
 
 import numpy as np
 
@@ -69,9 +70,18 @@ if cuda:
 PATH = "{}/{}.pt".format(constant.params["model_dir"], constant.params["save_path"])
 model.load_state_dict(torch.load(PATH))
 all_predictions, all_true_labels, all_pairs, valid_log_loss, attn_scores, bpe_attn_scores = trainer.evaluate(model, valid_loader, word2id, id2word, label2id, id2label)
-metrics = measure(all_pairs)
-fb1 = metrics["fb1"] / (100)
+fb1 = f1_score(all_true_labels, all_predictions)
+all_flatten_true_labels = []
+all_flatten_predictions = []
+for x in all_true_labels:
+    all_flatten_true_labels += list(x)
+for x in all_predictions:
+    all_flatten_predictions += list(x)
+accu = accuracy_score(all_flatten_true_labels, all_flatten_predictions)
+
+# fb1 = metrics["fb1"] / (100)
 print("valid fb1:", fb1)
+print("valid accu:", accu)
 
 with open("attention_scores.txt", "w+") as file_out:
     for i in range(len(attn_scores)):
@@ -88,6 +98,13 @@ with open("bpe_attention_scores.txt", "w+") as file_out:
         file_out.write("\n")
 
 all_predictions, all_true_labels, all_pairs, test_log_loss, attn_scores, bpe_attn_scores = trainer.evaluate(model, test_loader, word2id, id2word, label2id, id2label)
-metrics = measure(all_pairs)
-fb1 = metrics["fb1"] / (100)
+fb1 = f1_score(all_true_labels, all_predictions)
+all_flatten_true_labels = []
+all_flatten_predictions = []
+for x in all_true_labels:
+    all_flatten_true_labels += list(x)
+for x in all_predictions:
+    all_flatten_predictions += list(x)
+accu = accuracy_score(all_flatten_true_labels, all_flatten_predictions)
 print("test fb1:", fb1)
+print("test accu:", accu)
