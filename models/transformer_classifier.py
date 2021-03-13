@@ -13,7 +13,7 @@ import sys
 from tqdm import tqdm
 
 from modules import transformer
-from modules.meta_embedding import gen_new_bpe_embedding, BPEMetaEmbedding, gen_new_word_embedding
+from modules.embedding import gen_new_bpe_embedding, BPEMetaEmbedding, gen_new_word_embedding
 from modules.outputs import CRFOutputLayer, SoftmaxOutputLayer
 
 from eval.metrics import measure
